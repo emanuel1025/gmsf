@@ -74,10 +74,9 @@ public final class LandscapeModelFactory {
 		try {
 	        BufferedReader in = new BufferedReader(new FileReader(file));
 	        String str;
-	        
 	        while ((str = in.readLine()) != null) {
 	           
-	        	
+
 	        	if (str.equals("<Road>")) {
 	        		// start of new road
 	        		segments.clear();
@@ -201,6 +200,27 @@ public final class LandscapeModelFactory {
 		
 		// create a new road network
 		model.roadNetwork = new RoadNetwork(nodes, edges);
+		try {
+			FileWriter writer = new FileWriter("points.wkt");
+			writer.append("MULTIPOINT(");
+			boolean first = true;
+			for(RoadNode r:nodes) {
+				if(!first) {
+					writer.append(",");
+				}else {
+					first = false;
+				}
+				writer.append("("+r.x+" "+r.y+")");
+			}
+			writer.append(")\n");
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
 				
 		System.out.println("Edges: " + model.roadNetwork.getEdges().size());
 		System.out.println("Nodes: " + model.roadNetwork.getNodes().size());
@@ -244,9 +264,12 @@ public final class LandscapeModelFactory {
 			
 			reachableNodes[position] = visitedNodes.size();
 			if (reachableNodes[position]>maxValue) maxValue = reachableNodes[position];
-			
-			position++;
+			System.out.println(position+" "+reachableNodes[position]+" "+maxValue);
+			break;
+			//position++;
 		}
+		
+		
 		
 		System.out.println("Maximum number of reachable nodes: " + maxValue);
 		
@@ -283,8 +306,9 @@ public final class LandscapeModelFactory {
 				
 				System.out.println("Removed node: " + node.id);
 			}
+			break;
 
-			position++;
+			//position++;
 		}
 		
 		// statistics

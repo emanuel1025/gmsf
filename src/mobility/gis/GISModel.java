@@ -107,19 +107,21 @@ public class GISModel extends MobilityModel {
 				node.warmup();
 				Simulator.uniqueNodes++;
 			}
-			
+			System.out.println("GIS model initialized");
 		} else {
 			System.err.println("Number of nodes not specified. Use the NODES parameter to specify the node number.");
 			return;
 		}
 		
 		
-		
+		System.out.println("warm-uping");
+
 		// warm-up phase (5000 seconds)
 		for (int i=1; i<5000; i++) {
 			next();
 		}
-		
+		System.out.println("warm-upped");
+
 		warmupPhase = false;
 		
 		// nodes
