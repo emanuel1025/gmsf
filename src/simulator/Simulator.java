@@ -34,6 +34,7 @@ package simulator;
 
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import event.Event;
 import gui.GUI;
@@ -109,8 +110,8 @@ public class Simulator {
 		System.out.println("*  Philipp Sommer, Computer Engineering and     *");
 		System.out.println("*  Networks Laboratory (TIK), ETH Zurich        *");
 		System.out.println("*************************************************");
-		
-		
+
+		long start = System.nanoTime();
 		// parse input parameters
 		if (args.length<1) {
 			System.err.println("No parameters specifed.");
@@ -238,7 +239,7 @@ public class Simulator {
 		Iterator<Module> moduleIterator = modules.iterator();
 		while (moduleIterator.hasNext()){
 			Module module = moduleIterator.next();
-			//System.out.println("Initializing module: " + module.name);
+//			System.out.println("Initializing module: " + module.name);
 			module.init();
 		}
 		
@@ -268,6 +269,8 @@ public class Simulator {
 		
 		// simulation finished
 		mobilityModel.finish();
+
+		System.out.println("Everything's done!");
 		
 
 		// calculate average time node is in the simulation area
@@ -282,7 +285,13 @@ public class Simulator {
 			//System.out.println("Finish module: " + module.name);
 			module.finish();
 		}
-		
+
+		// some time passes
+		long end = System.nanoTime();
+
+		long elapsedTime = end - start;
+		long timeTaken = TimeUnit.SECONDS.convert(elapsedTime, TimeUnit.NANOSECONDS);
+		System.out.println("Time taken in seconds: " + timeTaken);
 	}
 
 	

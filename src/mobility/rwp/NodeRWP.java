@@ -110,10 +110,31 @@ public class NodeRWP extends MobileNode {
 					Join join = new Join(this, 0.0, Simulator.size*initX, Simulator.size*initY);
 					addEvent(join);
 					
+
+//					Move move = new Move(this, 0.0, join.x, join.y, Simulator.size*x2, Simulator.size*y2, initSpeed);
+//					addEvent(move);
+
 					// node movement
-					Move move = new Move(this, 0.0, join.x, join.y, Simulator.size*x2, Simulator.size*y2, initSpeed);
-					addEvent(move);
-					
+					double curTime = 0;
+					double startX = join.x;
+					double startY = join.y;
+					double endX = Simulator.size*x2;
+					double endY = Simulator.size*y2;
+
+					double curX;
+					double curY;
+					double prevX = startX;
+					double prevY = startY;
+
+					while (curTime < Simulator.duration) {
+						curX = startX + (endX - startX)*(curTime/Simulator.duration);
+						curY = startY + (endY - startY)*(curTime/Simulator.duration);
+						Move move = new Move(this, 0.0, prevX, prevY, curX, curY, initSpeed);
+						addEvent(move);
+						prevX = curX;
+						prevY = curY;
+						curTime++;
+					}
 				}
 									
 			}
